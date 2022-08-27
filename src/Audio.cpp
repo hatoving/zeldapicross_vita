@@ -19,6 +19,8 @@
 Audio Audio::instance=Audio();
 
 Audio::Audio() : volume(0), musiqueId(0), playing(false) {
+    sceClibPrintf("Initing sound...\n");
+    soundInit();
     SOUND = FSOUND_Init(44100, 32, 0);
     music = NULL;
 //SOUND=0; // to remove -> hack for no sound mode
@@ -52,6 +54,7 @@ void Audio::setVolume(int vol) {volume=vol*4;
 void Audio::setVolson(int volson) {FSOUND_SetSFXMasterVolume(volson*4);}
 
 void Audio::loadSounds() {
+    sceClibPrintf("Loading sounds...\n");
     sons = new FSOUND_SAMPLE*[16];
     
     sons[0] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/text.ogg",0,0,0); // lettres
@@ -111,6 +114,7 @@ void Audio::replayMusic() {
 }
 
 FMUSIC_MODULE* Audio::choixMusique(int id) {
+     sceClibPrintf("Loading music...\n");
     switch (id) {
         case 1 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Plaine.mid");
         case 2 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Home.mid");

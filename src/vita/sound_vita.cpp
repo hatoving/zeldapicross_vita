@@ -338,6 +338,7 @@ void FMUSIC_PlaySong(FMUSIC_MODULE* s)
 
 FSOUND_SAMPLE* FSOUND_Sample_Load(int flag, const char * f,int a, int b, int c)
 {
+	sceClibPrintf("Loading %s...\n", f);
 	int i;
 	for(i=0;i<NUMSFX;i++)
 	{
@@ -355,6 +356,7 @@ FSOUND_SAMPLE* FSOUND_Sample_Load(int flag, const char * f,int a, int b, int c)
 
 FMUSIC_MODULE* FMUSIC_LoadSong(const char * f)
 {
+	sceClibPrintf("Loading %s...\n", f);
 	int size;
 	int i;
 	for(i=0;i<NUMSFX;i++)

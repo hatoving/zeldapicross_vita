@@ -14,12 +14,11 @@
 #include "Window.h"
 
 int main(int argc, char** argv) {
-    if (argc && argv); //pour éviter un warning.....
+    if (argc && argv); //pour ï¿½viter un warning.....
     
     std::srand(std::time(NULL));
     
     Window* window = new Window(true);
-    
     window->loop();
     
     delete window;

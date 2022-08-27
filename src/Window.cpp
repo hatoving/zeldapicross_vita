@@ -52,7 +52,6 @@ SDL_Surface* init(bool* zoom) {
     modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
     if (modes == (SDL_Rect**)-1) gBpp = 1;
     else {
-        sceClibPrintf("SDL5\n");
         for (int i = 0; modes[i]; ++i) {
             if (modes[i]->w == 320 && modes[i]->h == 240) {
                 gBpp = 1; break;
@@ -92,7 +91,7 @@ void Window::loop() {
     Game* gpGame = Game::getInstance();
     gpGame->init();
 
-    SDL_VITA_SetVideoModeScaling(960 / 2, 0, 640, 480);
+    SDL_VITA_SetVideoModeScaling(0, 0, 640, 544);
     
     while (gLoop) {
         gpKeyboard->pollEvent();
