@@ -27,7 +27,7 @@ Audio::Audio() : volume(0), musiqueId(0), playing(false) {
 //setVolume(32);
 //setVolson(32);
     if (SOUND) {
-        previous_volume = -1;
+        previous_volume = 1;
         previous_volson = FSOUND_GetSFXMasterVolume();
         loadSounds();
     }
