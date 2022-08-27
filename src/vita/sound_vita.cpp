@@ -249,7 +249,7 @@ void loadSFX(FMUSIC_MODULE* s, const char* filename, uint32_t format)
 
 	initSFX(s);
 	
-	sceClibPrintf(s->filepath, "%s", filename);
+	sprintf(s->filepath, "%s", filename);
 
 }
 
