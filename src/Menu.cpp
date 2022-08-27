@@ -307,7 +307,7 @@ void Menu::handleEvent(Event* event) {
                         case 0 : // yes
                             Audio::getInstance()->playSound(2);
                             oss << (line+1);
-                            remove(("ux0:/data/ZeldaPicross/save/zpicross" + oss.str() 
+                            remove(("ux0:data/ZeldaPicross/save/zpicross" + oss.str() 
                                 + ".dat").c_str());
                             joueurs[line]->init();
                             start();

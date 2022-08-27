@@ -13,10 +13,33 @@
 #include "Keyboard.h"
 #include "Common.h"
 
+#define BTN_TRIANGLE 0
+#define BTN_CIRCLE 1
+#define BTN_CROSS 2
+#define BTN_SQUARE 3
+#define BTN_LTRIGGER 4
+#define BTN_RTRIGGER 5
+#define BTN_DOWN 6
+#define BTN_LEFT 7
+#define BTN_UP 8
+#define BTN_RIGHT 9
+#define BTN_SELECT 10
+#define BTN_START 11
+
+#define LSTICK 0
+#define RSTICK 1
+#define STICK_UP 0
+#define STICK_DOWN 1
+#define STICK_LEFT 2
+#define STICK_RIGHT 3
+
 Keyboard::Keyboard() : tmpDirUp(0), tmpDirDown(0), tmpDirLeft(0), tmpDirRight(0), 
 tmpAction(0), tmpReturn(0), tmpHypo(0), tmpMouse(0), tmpEscap(0), tmpMusic(0), 
 startTime(0), running(false) {
     event = new Event();
+
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    joystick = SDL_JoystickOpen(0);
 }
 
 Keyboard::~Keyboard() {
@@ -38,6 +61,9 @@ void Keyboard::pollEvent() {
                 return;
             case SDL_KEYDOWN :
                 pollKey(sdlEvent);
+                break;
+            case SDL_JOYBUTTONDOWN:
+                if(joystick) return pollKey(sdlEvent);
                 break;
             case SDL_MOUSEBUTTONDOWN :
                 if (sdlEvent.button.button == SDL_BUTTON_LEFT 
@@ -96,7 +122,7 @@ void Keyboard::pollKey(SDL_Event sdlEvent) {
 void Keyboard::pollKeys(Uint8* keys) {
     
     
-    if (keys[SDLK_UP]) {
+    if (keys[SDLK_UP] || buttonPressed(BTN_UP)) {
         if (tmpDirUp == 0) {
             event->UP = true;
             tmpDirUp = 1;
@@ -130,7 +156,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->UP = false;
     }
     
-    if (keys[SDLK_DOWN]) {
+    if (keys[SDLK_DOWN] || buttonPressed(BTN_DOWN)) {
         if (tmpDirDown == 0) {
             event->DOWN = true;
             tmpDirDown = 1;
@@ -164,7 +190,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->DOWN = false;
     }
     
-    if (keys[SDLK_LEFT]) {
+    if (keys[SDLK_LEFT] || buttonPressed(BTN_LEFT)) {
         if (tmpDirLeft == 0) {
             event->LEFT = true;
             tmpDirLeft = 1;
@@ -198,7 +224,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->LEFT = false;
     }
     
-    if (keys[SDLK_RIGHT]) {
+    if (keys[SDLK_RIGHT] || buttonPressed(BTN_RIGHT)) {
         if (tmpDirRight == 0) {
             event->RIGHT = true;
             tmpDirRight = 1;
@@ -234,60 +260,60 @@ void Keyboard::pollKeys(Uint8* keys) {
     
     
     event->ACTION = false;
-    if ((keys[SDLK_w] || keys[SDLK_z]) && !event->HOLD_ACTION  
+    if ((keys[SDLK_w] || keys[SDLK_z] || buttonPressed(BTN_CROSS)) && !event->HOLD_ACTION  
     && !event->HOLD_FLAG && !tmpAction) {
         event->HOLD_ACTION = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_w] && !keys[SDLK_z] && event->HOLD_ACTION) {
+    if (!keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CROSS) && event->HOLD_ACTION) {
         event->HOLD_ACTION = false;
         event->ACTION = true;
         tmpAction = 0;
     }
     
     event->FLAG = false;
-    if (keys[SDLK_x] && !event->HOLD_ACTION  && !event->HOLD_FLAG 
+    if (keys[SDLK_x] && buttonPressed(BTN_CIRCLE) && !event->HOLD_ACTION  && !event->HOLD_FLAG 
     && !tmpAction) {
         event->HOLD_FLAG = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_x] && event->HOLD_FLAG) {
+    if (!keys[SDLK_x] && buttonPressed(BTN_CIRCLE) && event->HOLD_FLAG) {
         event->HOLD_FLAG = false;
         event->FLAG = true;
         tmpAction = 0;
     }
     
     // cancel action
-    if (keys[SDLK_x] && event->HOLD_ACTION  && !event->HOLD_FLAG) {
+    if ((keys[SDLK_x] || buttonPressed(BTN_CIRCLE)) && event->HOLD_ACTION  && !event->HOLD_FLAG) {
         event->HOLD_ACTION = false;
         event->CANCEL_ACTION = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] 
+    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CIRCLE)
     && event->CANCEL_ACTION) {
         event->CANCEL_ACTION = false;
         tmpAction = 0;
     }
     
     // cancel flag
-    if ((keys[SDLK_w] || keys[SDLK_z]) && !event->HOLD_ACTION  
+    if ((keys[SDLK_w] || keys[SDLK_z] || buttonPressed(BTN_CIRCLE)) && !event->HOLD_ACTION  
     && event->HOLD_FLAG) {
         event->HOLD_FLAG = false;
         event->CANCEL_FLAG = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && event->CANCEL_FLAG) {
+    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CIRCLE) && event->CANCEL_FLAG) {
         event->CANCEL_FLAG = false;
         tmpAction = 0;
     }
     
     
     event->RETURN = false;
-    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER]) && !tmpReturn) {
+    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER] || buttonPressed(BTN_START)) && !tmpReturn) {
         event->RETURN = true;
         tmpReturn = 1;
     }
-    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && tmpReturn) {
+    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && !buttonPressed(BTN_START) && tmpReturn) {
         tmpReturn = 0;
     }
     
@@ -311,11 +337,11 @@ void Keyboard::pollKeys(Uint8* keys) {
     
     
     event->MUSIC_ON_OFF = false;
-    if ((keys[SDLK_m] || keys[SDLK_SEMICOLON]) && !event->MUSIC_ON_OFF && !tmpMusic) {
+    if ((keys[SDLK_m] || keys[SDLK_SEMICOLON] || buttonPressed(BTN_SELECT)) && !event->MUSIC_ON_OFF && !tmpMusic) {
         event->MUSIC_ON_OFF = true;
         tmpMusic = 1;
     }
-    if (!keys[SDLK_m] && !keys[SDLK_SEMICOLON] && tmpMusic) {
+    if (!keys[SDLK_m] && !keys[SDLK_SEMICOLON] && !buttonPressed(BTN_SELECT) && tmpMusic) {
         tmpMusic = 0;
     }
     
@@ -330,6 +356,34 @@ void Keyboard::pollKeys(Uint8* keys) {
         tmpAction = 0;
     }*/
     
+}
+
+int Keyboard::buttonPressed(int i) {
+#ifdef __vita__
+    return SDL_JoystickGetButton(joystick, i);
+#else
+    return 0;
+#endif
+}
+
+int Keyboard::stickPosition(int stick, int direction) {
+#ifdef __vita__
+    int axis;
+    int axisValue;
+    if (stick == LSTICK && (direction == STICK_LEFT || direction == STICK_RIGHT)) axis = 0; // Left stick, horizontal axis
+    if (stick == LSTICK && (direction == STICK_UP || direction == STICK_DOWN)) axis = 1; // Left stick, vertical axis
+    if (stick == RSTICK && (direction == STICK_LEFT || direction == STICK_RIGHT)) axis = 2; // Right stick, horizontal axis
+    if (stick == RSTICK && (direction == STICK_UP || direction == STICK_DOWN)) axis = 3; // Right stick, vertical axis
+
+    axisValue = SDL_JoystickGetAxis(joystick, axis); // range is -32768 to 32767
+    if ((axisValue < -16384 && direction == STICK_LEFT)
+      || (axisValue > 16384 && direction == STICK_RIGHT)
+      || (axisValue < -16384 && direction == STICK_UP)
+      || (axisValue > 16384 && direction == STICK_DOWN)) return 1;
+    else return 0;
+#else
+    return 0;
+#endif
 }
 
 Event* Keyboard::getEvent() {

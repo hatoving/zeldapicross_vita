@@ -25,6 +25,8 @@ class Keyboard {
     private :
         void pollKey(SDL_Event event);
         void pollKeys(Uint8* keys);
+        int buttonPressed(int i);
+        int stickPosition(int stick, int direction);
         
         int tmpDirUp;
         int tmpDirDown;
@@ -42,6 +44,9 @@ class Keyboard {
         Direction currentDir;
         Uint32 startTime;
         bool running;
+
+        // vita
+        SDL_Joystick* joystick;
 };
 
 #endif  // Keyboard.h

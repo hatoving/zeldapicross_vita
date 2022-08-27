@@ -30,29 +30,25 @@ Window::~Window() {
 }
 
 SDL_Surface* init(bool* zoom) {        
-    sceClibPrintf("SDL0");     // initialise SDL
+        // initialise SDL
     if(SDL_Init(SDL_INIT_VIDEO) == -1) {
         sceClibPrintf("Could not load SDL : %s\n", SDL_GetError());
         return NULL;
     }
     
-    sceClibPrintf("SDL1\n");
     atexit(SDL_Quit);
 
-    //SDL_WM_SetCaption("Zelda Picross",NULL);
-    //SDL_Surface* icon = SDL_LoadBMP("ux0:/data/ZeldaPicross/data/images/logos/crayon.ico");
-    //SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
-    //SDL_WM_SetIcon(icon,NULL);
+    SDL_WM_SetCaption("Zelda Picross",NULL);
+    SDL_Surface* icon = SDL_LoadBMP("ux0:data/ZeldaPicross/data/images/logos/crayon.ico");
+    SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
+    SDL_WM_SetIcon(icon,NULL);
 
-    sceClibPrintf("SDL2\n");
     SDL_ShowCursor(SDL_DISABLE);
 
 
-    sceClibPrintf("SDL3\n");
     SDL_Rect** modes;
     int gBpp = 0;
     
-    sceClibPrintf("SDL4\n");
     modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
     if (modes == (SDL_Rect**)-1) gBpp = 1;
     else {
@@ -64,13 +60,13 @@ SDL_Surface* init(bool* zoom) {
         }
     }
     
-    sceClibPrintf("SDL6\n");
-    if(!gBpp) {
+    /*if(!gBpp) {
         *zoom = true;
-        return SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN);
+        return SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
     } else {
-        return SDL_SetVideoMode(320, 240, 32, SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN);
-    }
+        return SDL_SetVideoMode(320, 240, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
+    }*/
+    return SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);
 }
 
 void Window::loop() {
@@ -95,6 +91,8 @@ void Window::loop() {
     Keyboard* gpKeyboard = new Keyboard();
     Game* gpGame = Game::getInstance();
     gpGame->init();
+
+    SDL_VITA_SetVideoModeScaling(960 / 2, 0, 640, 480);
     
     while (gLoop) {
         gpKeyboard->pollEvent();
@@ -121,7 +119,11 @@ void Window::loop() {
             SDL_Delay(lastAnimTime+20-SDL_GetTicks());
         }
         lastAnimTime = SDL_GetTicks();
-    
+
+        if(gpScreen2 == NULL)
+        {
+            sceClibPrintf("GPSCREEN2 IS NULL!");
+        }
     }
     
     Audio::getInstance()->stopMusic();
@@ -134,11 +136,11 @@ void Window::loop() {
 }
 
 bool Window::handleEvent(Event* event, Game* gpGame) {
-    if (event->FULLSCREEN) {
+    /*if (event->FULLSCREEN) {
         event->FULLSCREEN = false;
         toggleFullScreen();
         return true;
-    }
+    }*/
     gpGame->handleEvent(event);
     return (!event->QUIT);
 }

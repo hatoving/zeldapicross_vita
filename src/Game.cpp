@@ -68,7 +68,7 @@ void Game::saveSystem() {
     if (!rToSave) {
         return;
     }
-    ofstream f("ux0:/data/ZeldaPicross/save/system.dat",ios::out | ios::binary);
+    ofstream f("ux0:data/ZeldaPicross/save/system.dat",ios::out | ios::binary);
     f.write((char *)&volume,sizeof(int));
     f.write((char *)&volson,sizeof(int));
     f.write((char *)&rRank,sizeof(int));
@@ -81,7 +81,7 @@ void Game::saveSystem() {
 }
 
 void Game::loadSystem() {
-    ifstream f("ux0:/data/ZeldaPicross/save/system.dat",ios::in | ios::binary);
+    ifstream f("ux0:data/ZeldaPicross/save/system.dat",ios::in | ios::binary);
     if(!f.is_open()) return;
     f.read((char *)&volume,sizeof(int));
     f.read((char *)&volson,sizeof(int));

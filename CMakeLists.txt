@@ -18,8 +18,8 @@ set(VITA_TITLEID  "ZELDAPIC1")
 
 ## Flags and includes for building
 # Note that we make sure not to overwrite previous flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flto -g -Wl,-q -O2 -Wall -fdiagnostics-color=always")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fno-exceptions -std=gnu++11 -fpermissive")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flto -g -Wl,-q -O2 -D_PSP2_NPDRMPACKAGE_H_ -DHAVE_LIBSPEEXDSP -DWANT_FMMIDI=1 -DUSE_AUDIO_RESAMPLER -DHAVE_OGGVORBIS -Wall -fdiagnostics-color=always")
+set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fno-rtti -fno-exceptions -std=gnu++11 -fpermissive")
 
 FILE(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/vita/*.cpp ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
 

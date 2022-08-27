@@ -53,7 +53,7 @@ void Map::init(int id) {
     
     ostringstream os;
     os << id;
-    ifstream file(("ux0:/data/ZeldaPicross/data/levels/map"+os.str()+".pmp").c_str());
+    ifstream file(("ux0:data/ZeldaPicross/data/levels/map"+os.str()+".pmp").c_str());
     
     string line;
     getline(file, line);

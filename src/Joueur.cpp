@@ -66,7 +66,7 @@ void Joueur::init() {
 void Joueur::save() {
     ostringstream im;
     im << id;
-    ofstream f(("ux0:/data/ZeldaPicross/save/zpicross" + im.str() + ".dat").c_str(),ios::out | ios::binary);
+    ofstream f(("ux0:data/ZeldaPicross/save/zpicross" + im.str() + ".dat").c_str(),ios::out | ios::binary);
     f.write((char *)&map,sizeof(int));
     f.write((char *)&x,sizeof(int));
     f.write((char *)&y,sizeof(int));
@@ -96,7 +96,7 @@ void Joueur::save() {
 void Joueur::load() {
     ostringstream im;
     im << id;
-    ifstream f(("ux0:/data/ZeldaPicross/save/zpicross" + im.str() + ".dat").c_str(),ios::in | ios::binary);
+    ifstream f(("ux0:data/ZeldaPicross/save/zpicross" + im.str() + ".dat").c_str(),ios::in | ios::binary);
     if(!f.is_open()) return;
     f.read((char *)&map,sizeof(int));
     f.read((char *)&x,sizeof(int));
