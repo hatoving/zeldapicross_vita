@@ -33,7 +33,7 @@ Text::~Text() {
 void Text::init() {
     lastAnimTime = SDL_GetTicks();
     imageFont = Resources::getInstance()->getFont();
-    ifstream file("data/texts/texts.txt");
+    ifstream file("ux0:/data/ZeldaPicross/data/texts/texts.txt");
     string line;
     int i = 1;
     while (getline(file, line) && i <= MAX_TEXTS) {
@@ -163,7 +163,7 @@ void Text::setText(int idTxt, int vx, int vy, int vw, int vh, int cadr, bool def
 }
 
 void Text::cutText() {
-    //compte le nombre de caractères possibles et largeur et en hauteur
+    //compte le nombre de caractï¿½res possibles et largeur et en hauteur
     int nbcol = (w-16)/6 -1;
     int nblig = (h-16)/16;
     int tailleMax = nbcol * nblig;
@@ -175,21 +175,21 @@ void Text::cutText() {
         if (k < 0) return;
     }
     
-    //parcours du texte à afficher; à chaque début de mot, 
-    //vérifie que le mot peut tenir sur la ligne
+    //parcours du texte ï¿½ afficher; ï¿½ chaque dï¿½but de mot, 
+    //vï¿½rifie que le mot peut tenir sur la ligne
     for (int i = 0; i < (int)text.length(); i++) {
         
-        //on ne s'occupe que de la partie à afficher
+        //on ne s'occupe que de la partie ï¿½ afficher
         if (i >= tailleMax) {
             break;
         }
         
-        //supprime les espaces isolés en début de ligne
+        //supprime les espaces isolï¿½s en dï¿½but de ligne
         if (text.at(i)==' ' && text.at(i+1)!=' ' && i%nbcol == 0) text.erase(i,1);
-        //recherche du début du prochain mot
+        //recherche du dï¿½but du prochain mot
         while(text.at(i)==' ' && i < (int)text.length()-1) i++;
         
-        //saute une ligne si trouve une étoile
+        //saute une ligne si trouve une ï¿½toile
         if (text.at(i)=='*') {
             text.erase(i,1);
             int nb = (nbcol)-(i%(nbcol));
@@ -197,7 +197,7 @@ void Text::cutText() {
             continue;
         }
         
-        //si le mot dépasse
+        //si le mot dï¿½passe
         taille = wordSize(i);
         if ((i%nbcol)+taille>nbcol) {
             if  (i < tailleMax) {
@@ -206,7 +206,7 @@ void Text::cutText() {
                     text.insert(((i/nbcol)+1)*nbcol-1,"--");
                     i = 1+((i/nbcol)+1)*nbcol;
                 }
-                //sinon, on ajoute des espaces pour faire commencer le mot à la ligne
+                //sinon, on ajoute des espaces pour faire commencer le mot ï¿½ la ligne
                 else while((i%nbcol) != 0) {text.insert(i," "); i++;}
             }
         }
@@ -257,35 +257,35 @@ void Text::displayLetter(SDL_Surface* gpScreen, char c, int vx, int vy) {
             
     //majuscules A-Z
     if(val>=65 && val<=90) {src.x=6+16*((val-65)%10); src.y=2+16*((val-65)/10);}   
-    // ç
+    // ï¿½
     if(val==-25) {src.x=148;src.y=34;}
-    // é
+    // ï¿½
     if(val==-23) {src.x=100;src.y=84;}
-    // ê
+    // ï¿½
     if(val==-22) {src.x=116;src.y=84;}
-    // è
+    // ï¿½
     if(val==-24) {src.x=132;src.y=84;}
-    // ë
+    // ï¿½
     if(val==-21) {src.x=132;src.y=151;}
-    // à
+    // ï¿½
     if(val==-32) {src.x=148;src.y=84;}
-    // â
+    // ï¿½
     if(val==-30) {src.x=148;src.y=103;}
-    // ä
+    // ï¿½
     if(val==-28) {src.x=148;src.y=135;}
-    // î
+    // ï¿½
     if(val==-18) {src.x=84;src.y=119;}
-    // ï
+    // ï¿½
     if(val==-17) {src.x=116;src.y=151;}
-    // û
+    // ï¿½
     if(val==-5) {src.x=84;src.y=103;}
-    // ù
+    // ï¿½
     if(val==-7) {src.x=148;src.y=151;}
-    // ü
+    // ï¿½
     if(val==-4) {src.x=116;src.y=135;}
-    // ö
+    // ï¿½
     if(val==-10) {src.x=132;src.y=135;}
-    // ô
+    // ï¿½
     if(val==-12) {src.x=148;src.y=119;}
             
     //ponctuation

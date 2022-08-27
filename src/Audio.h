@@ -11,13 +11,14 @@
 #ifndef __AUDIO_H__
 #define __AUDIO_H__
 
-#include <FMOD/fmod.h>
+#include <vitasdk.h>
+#include "vita/os_vita.h"
+#include "vita/sound_vita.h"
 
 class Audio {
     public :
         static Audio* getInstance();
         void playSound(int id, int chl = FSOUND_FREE);
-        void stopSound();
         void playMusic(int id);
         void stopMusic();
         void replayMusic();

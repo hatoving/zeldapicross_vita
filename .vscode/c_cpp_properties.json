@@ -20,7 +20,9 @@
             "name": "VitaSDK",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/local/vitasdk/arm-vita-eabi/include"
+                "/usr/local/vitasdk/arm-vita-eabi/include",
+                "~/zeldapicross_vita/include",
+                "/usr/local/vitasdk/arm-vita-eabi/include/SDL"
             ],
             "defines": [
                 "_DEBUG",

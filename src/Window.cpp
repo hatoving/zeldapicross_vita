@@ -10,6 +10,7 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_rotozoom.h>
+#include <psp2/kernel/clib.h>
 
 #include "Window.h"
 #include "Keyboard.h"
@@ -28,28 +29,34 @@ Window::~Window() {
     SDL_Quit();
 }
 
-SDL_Surface* init(bool* zoom) {             // initialise SDL
+SDL_Surface* init(bool* zoom) {        
+    sceClibPrintf("SDL0");     // initialise SDL
     if(SDL_Init(SDL_INIT_VIDEO) == -1) {
-        printf("Could not load SDL : %s\n", SDL_GetError());
+        sceClibPrintf("Could not load SDL : %s\n", SDL_GetError());
         return NULL;
     }
     
+    sceClibPrintf("SDL1\n");
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("Zelda Picross",NULL);
-    SDL_Surface* icon = SDL_LoadBMP("data/images/logos/crayon.ico");
-    SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
-    SDL_WM_SetIcon(icon,NULL);
+    //SDL_WM_SetCaption("Zelda Picross",NULL);
+    //SDL_Surface* icon = SDL_LoadBMP("ux0:/data/ZeldaPicross/data/images/logos/crayon.ico");
+    //SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
+    //SDL_WM_SetIcon(icon,NULL);
 
+    sceClibPrintf("SDL2\n");
     SDL_ShowCursor(SDL_DISABLE);
 
 
+    sceClibPrintf("SDL3\n");
     SDL_Rect** modes;
     int gBpp = 0;
     
+    sceClibPrintf("SDL4\n");
     modes = SDL_ListModes(NULL,SDL_FULLSCREEN|SDL_HWSURFACE);
     if (modes == (SDL_Rect**)-1) gBpp = 1;
     else {
+        sceClibPrintf("SDL5\n");
         for (int i = 0; modes[i]; ++i) {
             if (modes[i]->w == 320 && modes[i]->h == 240) {
                 gBpp = 1; break;
@@ -57,6 +64,7 @@ SDL_Surface* init(bool* zoom) {             // initialise SDL
         }
     }
     
+    sceClibPrintf("SDL6\n");
     if(!gBpp) {
         *zoom = true;
         return SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE|SDL_DOUBLEBUF|SDL_FULLSCREEN);
@@ -89,8 +97,6 @@ void Window::loop() {
     gpGame->init();
     
     while (gLoop) {
-        
-        
         gpKeyboard->pollEvent();
         event = gpKeyboard->getEvent();
         
