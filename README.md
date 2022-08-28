@@ -1,6 +1,7 @@
 # Zelda Picross Vita
 
 This is a port of Zelda Picross for the PS Vita, based on the original source from here: http://www.zeldaroth.fr/us/dlpicross.php
+
 Save files are located at ``ux0:data/ZeldaPicross/save``
 
 ## Instructions
