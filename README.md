@@ -8,7 +8,7 @@ This is a port of Zelda Picross for the PS Vita, based on the original source fr
 Just go to the Releases tab, install the .VPK with VitaShell and enjoy.
 
 ### For devs
-Make sure you have VitaSDK installed: vitasdk.org
+Make sure you have [VitaSDK](https://vitasdk.org/) installed.
 
 Once you do, all you need to do is type in ``make`` and press enter.
 Type in ``make clean`` to clean up all of the files that the Makefile produced.
@@ -27,7 +27,7 @@ Type in ``make clean`` to clean up all of the files that the Makefile produced.
 
 ## Credits
 - [Rinnegatamante](https://github.com/Rinnegatamante/) and [Northfear](https://github.com/Northfear/) for helping me making this a thing
-- [usineur](https://github.com/usineur)'s code for the [Audio](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Audio.cpp) and [Input](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Keyboard.cpp)
+- [usineur](https://github.com/usineur)'s code used in [Audio](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Audio.cpp) and half of it used in [Input](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Keyboard.cpp)
 
 [cross]: https://raw.githubusercontent.com/v-atamanenko/sdl2sand/master/img/cross.svg "Cross"
 [circl]: https://raw.githubusercontent.com/v-atamanenko/sdl2sand/master/img/circle.svg "Circle"
