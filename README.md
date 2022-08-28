@@ -12,7 +12,8 @@ Just go to the Releases tab, install the .VPK with VitaShell and enjoy.
 ### For devs
 Make sure you have [VitaSDK](https://vitasdk.org/) and 7Zip (`sudo apt install p7zip-full` if you're on Linux) installed on your terminal.
 
-Once you have it installed, all you need to do is type in ``make`` and press enter.
+Once you have it installed, all you need to do is type in ``make`` and press enter. All the files should be in the root of the repo.
+
 Type in ``make clean`` to clean up all of the files that the Makefile produced.
 
 ## Controls
