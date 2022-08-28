@@ -18,14 +18,14 @@ Type in ``make clean`` to clean up all of the files that the Makefile produced.
 ## Controls
 -----------------
 
-|             Button             | Action                       |
-|:------------------------------:|:--------------               |
-| ![joysl] / ![dpadh] / ![dpadv] | Move (Map/Cursor)            |
-|            ![cross]            | Confirm/Mark square as full  |
-|      ![circl] / ![squar]       | Mark square as empty         |
-|            ![trian]            | Hypothesis                   |
-|            ![selec]            | Pause                        |
-|            ![start]            | Progress through text        |
+|             Button             | Action                         |
+|:------------------------------:|:------------------------------:|
+| ![joysl] / ![dpadh] / ![dpadv] | Move (Map/Cursor)/Reset sqaure |
+|            ![cross]            | Confirm/Mark square as full    |
+|      ![circl]                  | Mark square as empty           |
+|            ![trian]            | Hypothesis                     |
+|            ![selec]            | Pause                          |
+|            ![start]            | Progress through text          |
 
 ## Credits
 - [Rinnegatamante](https://github.com/Rinnegatamante/) and [Northfear](https://github.com/Northfear/) for helping me troubleshoot some issues
