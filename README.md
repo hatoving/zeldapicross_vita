@@ -30,6 +30,7 @@ Type in ``make clean`` to clean up all of the files that the Makefile produced.
 ## Credits
 - [Rinnegatamante](https://github.com/Rinnegatamante/) and [Northfear](https://github.com/Northfear/) for helping me troubleshoot some issues
 - [usineur](https://github.com/usineur)'s code used in [Audio](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Audio.cpp) and half of it used in [Input](https://github.com/hatoving/zeldapicross_vita/blob/main/src/Keyboard.cpp)
+- [gl33twine](https://github.com/v-atamanenko) for those nice looking Vita buttons lmao
 
 [cross]: https://raw.githubusercontent.com/v-atamanenko/sdl2sand/master/img/cross.svg "Cross"
 [circl]: https://raw.githubusercontent.com/v-atamanenko/sdl2sand/master/img/circle.svg "Circle"
