@@ -98,7 +98,7 @@ SDL_Surface* Resources::getTheme(int i) {
         ostringstream im;
         im << i;
         theme[i-1] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/theme/theme" + im.str() + ".png").c_str());
+            ("app0:data/images/theme/theme" + im.str() + ".png").c_str());
         theme[i-1] = convertImage(theme[i-1]);
     }
     return theme[i-1];
@@ -106,7 +106,7 @@ SDL_Surface* Resources::getTheme(int i) {
 
 SDL_Surface* Resources::getChiffres() {
     if (chiffres == 0) {
-        chiffres = IMG_Load("ux0:data/ZeldaPicross/data/images/font/chiffres.png");
+        chiffres = IMG_Load("app0:data/images/font/chiffres.png");
         if (chiffres) {
             SDL_SetColorKey(chiffres,
                 SDL_SRCCOLORKEY,SDL_MapRGB(chiffres->format,0,0,255));
@@ -124,7 +124,7 @@ SDL_Surface* Resources::getBackground(int i) {
         ostringstream im;
         im << i;
         background[i] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/background/background" + im.str() + ".png").c_str());
+            ("app0:data/images/background/background" + im.str() + ".png").c_str());
         background[i] = convertImage(background[i]);
     }
     return background[i];
@@ -138,7 +138,7 @@ SDL_Surface* Resources::getPicross(int i) {
         ostringstream im;
         im << i;
         picross[i-1] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/picross/picross" + im.str() + ".bmp").c_str());
+            ("app0:data/images/picross/picross" + im.str() + ".bmp").c_str());
         picross[i-1] = convertImage(picross[i-1]);
     }
     return picross[i-1];
@@ -152,7 +152,7 @@ SDL_Surface* Resources::getMap(int i) {
         ostringstream im;
         im << i;
         map[i-1] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/map/map" + im.str() + ".png").c_str());
+            ("app0:data/images/map/map" + im.str() + ".png").c_str());
         if (map[i-1]) {
             SDL_SetColorKey(map[i-1],
                 SDL_SRCCOLORKEY,SDL_MapRGB(map[i-1]->format,0,0,255));
@@ -170,7 +170,7 @@ SDL_Surface* Resources::getIcon(int i) {
         ostringstream im;
         im << i;
         icon[i] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/icon/icon" + im.str() + ".png").c_str());
+            ("app0:data/images/icon/icon" + im.str() + ".png").c_str());
         if (icon[i]) {
             SDL_SetColorKey(icon[i],
                 SDL_SRCCOLORKEY,SDL_MapRGB(icon[i]->format,0,0,255));
@@ -188,7 +188,7 @@ SDL_Surface* Resources::getPicrossBG(int i) {
         ostringstream im;
         im << i;
         picrossBG[i-1] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/background/picross" + im.str() + ".png").c_str());
+            ("app0:data/images/background/picross" + im.str() + ".png").c_str());
         picrossBG[i-1] = convertImage(picrossBG[i-1]);
     }
     return picrossBG[i-1];
@@ -196,7 +196,7 @@ SDL_Surface* Resources::getPicrossBG(int i) {
 
 SDL_Surface* Resources::getFont() {
     if (font == 0) {
-        font = IMG_Load("ux0:data/ZeldaPicross/data/images/font/font.png");
+        font = IMG_Load("app0:data/images/font/font.png");
         if (font) {
             SDL_SetColorKey(font,SDL_SRCCOLORKEY,
                 SDL_MapRGB(font->format,0,0,255));
@@ -208,7 +208,7 @@ SDL_Surface* Resources::getFont() {
 
 SDL_Surface* Resources::getLink() {
     if (link == 0) {
-        link = IMG_Load("ux0:data/ZeldaPicross/data/images/link/link.png");
+        link = IMG_Load("app0:data/images/link/link.png");
         if (link) {
             SDL_SetColorKey(link,SDL_SRCCOLORKEY,
                 SDL_MapRGB(link->format,0,0,255));
@@ -220,7 +220,7 @@ SDL_Surface* Resources::getLink() {
 
 SDL_Surface* Resources::getStatus() {
     if (status == 0) {
-        status = IMG_Load("ux0:data/ZeldaPicross/data/images/icon/objets.png");
+        status = IMG_Load("app0:data/images/icon/objets.png");
         if (status) {
             SDL_SetColorKey(status,
                 SDL_SRCCOLORKEY,SDL_MapRGB(status->format,0,0,255));
@@ -232,7 +232,7 @@ SDL_Surface* Resources::getStatus() {
 
 SDL_Surface* Resources::getCadre() {
     if (cadre == 0) {
-        cadre = IMG_Load("ux0:data/ZeldaPicross/data/images/menu/bord.png");
+        cadre = IMG_Load("app0:data/images/menu/bord.png");
         if (cadre) {
             SDL_SetColorKey(cadre,
                 SDL_SRCCOLORKEY,SDL_MapRGB(cadre->format,0,0,255));
@@ -244,7 +244,7 @@ SDL_Surface* Resources::getCadre() {
 
 SDL_Surface* Resources::getBoss() {
     if (boss == 0) {
-        boss = IMG_Load("ux0:data/ZeldaPicross/data/images/map/boss.png");
+        boss = IMG_Load("app0:data/images/map/boss.png");
         if (boss) {
             SDL_SetColorKey(boss,
                 SDL_SRCCOLORKEY,SDL_MapRGB(boss->format,0,0,255));
@@ -256,7 +256,7 @@ SDL_Surface* Resources::getBoss() {
 
 SDL_Surface* Resources::getLogo() {
     if (logo == 0) {
-        logo = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/logo.png");
+        logo = IMG_Load("app0:data/images/logos/logo.png");
         logo = convertImage(logo);
     }
     return logo;
@@ -264,7 +264,7 @@ SDL_Surface* Resources::getLogo() {
 
 SDL_Surface* Resources::getTitreBG() {
     if (titreBG == 0) {
-        titreBG = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/fond.png");
+        titreBG = IMG_Load("app0:data/images/logos/fond.png");
         titreBG = convertImage(titreBG);
     }
     return titreBG;
@@ -272,7 +272,7 @@ SDL_Surface* Resources::getTitreBG() {
 
 SDL_Surface* Resources::getTitreLogo() {
     if (titreLogo == 0) {
-        titreLogo = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/titre.png");
+        titreLogo = IMG_Load("app0:data/images/logos/titre.png");
         if (titreLogo) {
             SDL_SetColorKey(titreLogo,
                 SDL_SRCCOLORKEY,SDL_MapRGB(titreLogo->format,0,0,255));
@@ -284,7 +284,7 @@ SDL_Surface* Resources::getTitreLogo() {
 
 SDL_Surface* Resources::getCadreMenu() {
     if (cadreMenu == 0) {
-        cadreMenu = IMG_Load("ux0:data/ZeldaPicross/data/images/menu/cadres.png");
+        cadreMenu = IMG_Load("app0:data/images/menu/cadres.png");
         if (cadreMenu) {
             SDL_SetColorKey(cadreMenu,
                 SDL_SRCCOLORKEY,SDL_MapRGB(cadreMenu->format,0,0,255));
@@ -296,7 +296,7 @@ SDL_Surface* Resources::getCadreMenu() {
 
 SDL_Surface* Resources::getLinkMenu() {
     if (linkMenu == 0) {
-        linkMenu = IMG_Load("ux0:data/ZeldaPicross/data/images/menu/curseur.png");
+        linkMenu = IMG_Load("app0:data/images/menu/curseur.png");
         if (linkMenu) {
             SDL_SetColorKey(linkMenu,
                 SDL_SRCCOLORKEY,SDL_MapRGB(linkMenu->format,0,0,255));
@@ -308,7 +308,7 @@ SDL_Surface* Resources::getLinkMenu() {
 
 SDL_Surface* Resources::getFeeMenu() {
     if (feeMenu == 0) {
-        feeMenu = IMG_Load("ux0:data/ZeldaPicross/data/images/menu/fee.png");
+        feeMenu = IMG_Load("app0:data/images/menu/fee.png");
         feeMenu = convertImage(feeMenu);
     }
     return feeMenu;
@@ -316,7 +316,7 @@ SDL_Surface* Resources::getFeeMenu() {
 
 SDL_Surface* Resources::getMouse() {
     if (mouse == 0) {
-        mouse = IMG_Load("ux0:data/ZeldaPicross/data/images/icon/mouse.png");
+        mouse = IMG_Load("app0:data/images/icon/mouse.png");
         if (mouse) {
             SDL_SetColorKey(mouse,
                 SDL_SRCCOLORKEY,SDL_MapRGB(mouse->format,0,0,255));
@@ -334,7 +334,7 @@ SDL_Surface* Resources::getStep(int i) {
         ostringstream im;
         im << (i + 1);
         step[i] = IMG_Load(
-            ("ux0:data/ZeldaPicross/data/images/logos/intro" + im.str() + ".png").c_str());
+            ("app0:data/images/logos/intro" + im.str() + ".png").c_str());
         step[i] = convertImage(step[i]);
     }
     return step[i];
@@ -342,7 +342,7 @@ SDL_Surface* Resources::getStep(int i) {
 
 SDL_Surface* Resources::getIntroFond1() {
     if (introFond1 == 0) {
-        introFond1 = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/fond1.png");
+        introFond1 = IMG_Load("app0:data/images/logos/fond1.png");
         if (introFond1) {
             SDL_SetColorKey(introFond1,
                 SDL_SRCCOLORKEY,SDL_MapRGB(introFond1->format,0,0,255));
@@ -354,7 +354,7 @@ SDL_Surface* Resources::getIntroFond1() {
 
 SDL_Surface* Resources::getIntroFond2() {
     if (introFond2 == 0) {
-        introFond2 = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/fond2.png");
+        introFond2 = IMG_Load("app0:data/images/logos/fond2.png");
         introFond2 = convertImage(introFond2);
     }
     return introFond2;
@@ -362,7 +362,7 @@ SDL_Surface* Resources::getIntroFond2() {
 
 SDL_Surface* Resources::getEndingFond() {
     if (endingFond == 0) {
-        endingFond = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/fin.png");
+        endingFond = IMG_Load("app0:data/images/logos/fin.png");
         endingFond = convertImage(endingFond);
     }
     return endingFond;
@@ -370,7 +370,7 @@ SDL_Surface* Resources::getEndingFond() {
 
 SDL_Surface* Resources::getTreeFond() {
     if (treeFond == 0) {
-        treeFond = IMG_Load("ux0:data/ZeldaPicross/data/images/logos/arbre.png");
+        treeFond = IMG_Load("app0:data/images/logos/arbre.png");
         treeFond = convertImage(treeFond);
     }
     return treeFond;

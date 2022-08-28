@@ -33,7 +33,7 @@ Text::~Text() {
 void Text::init() {
     lastAnimTime = SDL_GetTicks();
     imageFont = Resources::getInstance()->getFont();
-    ifstream file("ux0:data/ZeldaPicross/data/texts/texts.txt");
+    ifstream file("app0:data/texts/texts.txt");
     string line;
     int i = 1;
     while (getline(file, line) && i <= MAX_TEXTS) {

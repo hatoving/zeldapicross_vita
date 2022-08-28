@@ -122,7 +122,7 @@ void Keyboard::pollKey(SDL_Event sdlEvent) {
 void Keyboard::pollKeys(Uint8* keys) {
     
     
-    if (keys[SDLK_UP] || buttonPressed(BTN_UP)) {
+    if (keys[SDLK_UP] || buttonPressed(BTN_UP) || stickPosition(LSTICK, STICK_UP)) {
         if (tmpDirUp == 0) {
             event->UP = true;
             tmpDirUp = 1;
@@ -156,7 +156,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->UP = false;
     }
     
-    if (keys[SDLK_DOWN] || buttonPressed(BTN_DOWN)) {
+    if (keys[SDLK_DOWN] || buttonPressed(BTN_DOWN) || stickPosition(LSTICK, STICK_DOWN)) {
         if (tmpDirDown == 0) {
             event->DOWN = true;
             tmpDirDown = 1;
@@ -190,7 +190,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->DOWN = false;
     }
     
-    if (keys[SDLK_LEFT] || buttonPressed(BTN_LEFT)) {
+    if (keys[SDLK_LEFT] || buttonPressed(BTN_LEFT) || stickPosition(LSTICK, STICK_LEFT)) {
         if (tmpDirLeft == 0) {
             event->LEFT = true;
             tmpDirLeft = 1;
@@ -224,7 +224,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->LEFT = false;
     }
     
-    if (keys[SDLK_RIGHT] || buttonPressed(BTN_RIGHT)) {
+    if (keys[SDLK_RIGHT] || buttonPressed(BTN_RIGHT) || stickPosition(LSTICK, STICK_RIGHT)) {
         if (tmpDirRight == 0) {
             event->RIGHT = true;
             tmpDirRight = 1;
@@ -272,7 +272,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         tmpAction = 0;
     }
     
-    event->FLAG = false;
+    /*event->FLAG = false;
     if (keys[SDLK_x] && buttonPressed(BTN_CIRCLE) && !event->HOLD_ACTION  && !event->HOLD_FLAG 
     && !tmpAction) {
         event->HOLD_FLAG = true;
@@ -282,71 +282,71 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->HOLD_FLAG = false;
         event->FLAG = true;
         tmpAction = 0;
-    }
+    }*/
 
-    // cancel action
-    if ((buttonPressed(BTN_SELECT)) && event->HOLD_ACTION && !event->HOLD_FLAG) {
-        event->HOLD_ACTION = false;
-        event->QUIT=true;
+    // select action
+    if ((buttonPressed(BTN_SELECT))) {
         event->ESCAPE=true;
-        tmpAction = 1;
     }
-    if (!buttonPressed(BTN_SELECT)
-    && event->QUIT && event->ESCAPE) {
-        event->QUIT=false;
-        event->ESCAPE=false;
-        tmpAction = 0;
-    }
+    else event->ESCAPE = false;
+
+    if ((buttonPressed(BTN_CIRCLE))) {
+        event->FLAG = true;
+    } else  event->FLAG = false;
+
+    if ((buttonPressed(BTN_LTRIGGER))) {
+        event->HYPOTHESE= true;
+    } else event->HYPOTHESE = false;
     
     // cancel action
-    if ((keys[SDLK_x] || buttonPressed(BTN_CIRCLE)) && event->HOLD_ACTION  && !event->HOLD_FLAG) {
+    if ((keys[SDLK_x] && event->HOLD_ACTION  && !event->HOLD_FLAG)) {
         event->HOLD_ACTION = false;
         event->CANCEL_ACTION = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CIRCLE)
+    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CROSS)
     && event->CANCEL_ACTION) {
         event->CANCEL_ACTION = false;
         tmpAction = 0;
     }
     
     // cancel flag
-    if ((keys[SDLK_w] || keys[SDLK_z] || buttonPressed(BTN_CIRCLE)) && !event->HOLD_ACTION  
+    if ((keys[SDLK_w] || keys[SDLK_z] || buttonPressed(BTN_CROSS)) && !event->HOLD_ACTION  
     && event->HOLD_FLAG) {
         event->HOLD_FLAG = false;
         event->CANCEL_FLAG = true;
         tmpAction = 1;
     }
-    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CIRCLE) && event->CANCEL_FLAG) {
+    if (!keys[SDLK_x] && !keys[SDLK_w] && !keys[SDLK_z] && !buttonPressed(BTN_CROSS) && event->CANCEL_FLAG) {
         event->CANCEL_FLAG = false;
         tmpAction = 0;
     }
     
     
     event->RETURN = false;
-    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER] || buttonPressed(BTN_START) || buttonPressed(BTN_CROSS)) && !tmpReturn) {
+    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER] || buttonPressed(BTN_START)) && !tmpReturn) {
         event->RETURN = true;
         tmpReturn = 1;
     }
-    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && !buttonPressed(BTN_START) && !buttonPressed(BTN_CROSS) && tmpReturn) {
+    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && !buttonPressed(BTN_START) && tmpReturn) {
         tmpReturn = 0;
     }
     
-    event->HYPOTHESE = false;
-    if (keys[SDLK_h] && buttonPressed(BTN_SQUARE) && !event->HYPOTHESE && !tmpHypo) {
+    if (keys[SDLK_h] && buttonPressed(BTN_LTRIGGER) && !event->HYPOTHESE && !tmpHypo) {
         event->HYPOTHESE = true;
         tmpHypo = 1;
     }
-    if (!keys[SDLK_h] && !buttonPressed(BTN_SQUARE) && tmpHypo) {
+    if (!keys[SDLK_h] && !buttonPressed(BTN_LTRIGGER) && tmpHypo) {
+        event->HYPOTHESE = false;
         tmpHypo = 0;
     }
     
     event->MOUSE_ON_OFF = false;
-    if (keys[SDLK_TAB] && !event->MOUSE_ON_OFF && !tmpMouse) {
+    if (keys[SDLK_TAB] && buttonPressed(BTN_RTRIGGER) && !event->MOUSE_ON_OFF && !tmpMouse) {
         event->MOUSE_ON_OFF = true;
         tmpMouse = 1;
     }
-    if (!keys[SDLK_TAB] && tmpMouse) {
+    if (!keys[SDLK_TAB] && !buttonPressed(BTN_RTRIGGER) && tmpMouse) {
         tmpMouse = 0;
     }
     

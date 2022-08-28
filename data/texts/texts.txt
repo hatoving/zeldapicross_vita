@@ -30,11 +30,11 @@ To the 5th Floor
 To the Roof
 Tutorial : After completing all the picross from a map, improve your total time to earn a reward.
 Tutorial : Press Enter to solve the picross of the current box.
-Tutorial : Use the direction arrows to move the cursor, use W (or Z) to check a box and X to mark it as empty. *The numbers show you how many succesive boxes need to be checked on each line and column. **Every mistake will make you lose life and if you run out of hearts you'll be unable to continue the picross.
+Tutorial : Use the direction arrows to move the cursor, use CROSS to check a box and SQUARE to mark it as empty. *The numbers show you how many succesive boxes need to be checked on each line and column. **Every mistake will make you lose life and if you run out of hearts you'll be unable to continue the picross.
 Tutorial : Use the direction arrows to move from box to box.
 Tutorial : Your time to solve the picross is limited. If you run out of time, you'll lose a heart and receive some additional time in return.
 Tutorial : Trying to complete lines by elimination is a good strategy : fill in the cases you are sure off.
-Tutorial : Don't forget to use X to mark the empty boxes, it will be a life saver.
+Tutorial : Don't forget to use SQUARE to mark the empty boxes, it will be a life saver.
 Tutorial : A bit harder picross to complete the tutorial.
 You'll need a sword to pass
 You'll need a bomb to pass
@@ -48,7 +48,7 @@ You'll need the master key to pass
 You've found a sword ! *Press TAB while playing picross to activate / deactivate the mouse.
 You've found a shield, your defence improves !*You'll receive half the damage !
 You've found the Pegasus boots, the time limits double !
-You've found the book of Mudora, the guessing mode is available ! ***Press H on an empty box to flag it as a possible checked box, your mistakes won't show anymore. **Press H a second time to leave the guessing mode.
+You've found the book of Mudora, the guessing mode is available ! ***Press L on an empty box to flag it as a possible checked box, your mistakes won't show anymore. **Press R a second time to leave the guessing mode.
 You've found the gloves !
 You've bought a bomb sac !
 You've found a bow !

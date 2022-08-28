@@ -39,7 +39,7 @@ SDL_Surface* init(bool* zoom) {
     atexit(SDL_Quit);
 
     SDL_WM_SetCaption("Zelda Picross",NULL);
-    SDL_Surface* icon = SDL_LoadBMP("ux0:data/ZeldaPicross/data/images/logos/crayon.ico");
+    SDL_Surface* icon = SDL_LoadBMP("app0:data/images/logos/crayon.ico");
     SDL_SetColorKey(icon,SDL_SRCCOLORKEY,SDL_MapRGB(icon->format,0,0,0));
     SDL_WM_SetIcon(icon,NULL);
 
