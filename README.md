@@ -10,7 +10,7 @@ Just go to the Releases tab, install the .VPK with VitaShell and enjoy.
 ### For devs
 Make sure you have [VitaSDK](https://vitasdk.org/) installed.
 
-Once you do, all you need to do is type in ``make`` and press enter.
+Once you have it installed, all you need to do is type in ``make`` and press enter.
 Type in ``make clean`` to clean up all of the files that the Makefile produced.
 
 ## Controls
