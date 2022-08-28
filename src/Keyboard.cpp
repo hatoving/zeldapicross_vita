@@ -258,6 +258,7 @@ void Keyboard::pollKeys(Uint8* keys) {
         event->RIGHT = false;
     }
     
+
     
     event->ACTION = false;
     if ((keys[SDLK_w] || keys[SDLK_z] || buttonPressed(BTN_CROSS)) && !event->HOLD_ACTION  
@@ -280,6 +281,20 @@ void Keyboard::pollKeys(Uint8* keys) {
     if (!keys[SDLK_x] && buttonPressed(BTN_CIRCLE) && event->HOLD_FLAG) {
         event->HOLD_FLAG = false;
         event->FLAG = true;
+        tmpAction = 0;
+    }
+
+    // cancel action
+    if ((buttonPressed(BTN_SELECT)) && event->HOLD_ACTION && !event->HOLD_FLAG) {
+        event->HOLD_ACTION = false;
+        event->QUIT=true;
+        event->ESCAPE=true;
+        tmpAction = 1;
+    }
+    if (!buttonPressed(BTN_SELECT)
+    && event->QUIT && event->ESCAPE) {
+        event->QUIT=false;
+        event->ESCAPE=false;
         tmpAction = 0;
     }
     
@@ -309,20 +324,20 @@ void Keyboard::pollKeys(Uint8* keys) {
     
     
     event->RETURN = false;
-    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER] || buttonPressed(BTN_START)) && !tmpReturn) {
+    if ((keys[SDLK_RETURN] || keys[SDLK_KP_ENTER] || buttonPressed(BTN_START) || buttonPressed(BTN_CROSS)) && !tmpReturn) {
         event->RETURN = true;
         tmpReturn = 1;
     }
-    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && !buttonPressed(BTN_START) && tmpReturn) {
+    if (!keys[SDLK_RETURN] && !keys[SDLK_KP_ENTER] && !buttonPressed(BTN_START) && !buttonPressed(BTN_CROSS) && tmpReturn) {
         tmpReturn = 0;
     }
     
     event->HYPOTHESE = false;
-    if (keys[SDLK_h] && !event->HYPOTHESE && !tmpHypo) {
+    if (keys[SDLK_h] && buttonPressed(BTN_SQUARE) && !event->HYPOTHESE && !tmpHypo) {
         event->HYPOTHESE = true;
         tmpHypo = 1;
     }
-    if (!keys[SDLK_h] && tmpHypo) {
+    if (!keys[SDLK_h] && !buttonPressed(BTN_SQUARE) && tmpHypo) {
         tmpHypo = 0;
     }
     
@@ -337,11 +352,11 @@ void Keyboard::pollKeys(Uint8* keys) {
     
     
     event->MUSIC_ON_OFF = false;
-    if ((keys[SDLK_m] || keys[SDLK_SEMICOLON] || buttonPressed(BTN_SELECT)) && !event->MUSIC_ON_OFF && !tmpMusic) {
+    if ((keys[SDLK_m] || keys[SDLK_SEMICOLON] || buttonPressed(BTN_TRIANGLE)) && !event->MUSIC_ON_OFF && !tmpMusic) {
         event->MUSIC_ON_OFF = true;
         tmpMusic = 1;
     }
-    if (!keys[SDLK_m] && !keys[SDLK_SEMICOLON] && !buttonPressed(BTN_SELECT) && tmpMusic) {
+    if (!keys[SDLK_m] && !keys[SDLK_SEMICOLON] && !buttonPressed(BTN_TRIANGLE) && tmpMusic) {
         tmpMusic = 0;
     }
     

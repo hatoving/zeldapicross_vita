@@ -12,35 +12,44 @@
 #include <fstream>
 #include <iostream>
 
-#include <SDL/SDL.h>
-
 #include "Audio.h"
+
+#ifdef __vita__
+#include <sys/stat.h>
+#endif
 
 Audio Audio::instance=Audio();
 
 Audio::Audio() : volume(0), musiqueId(0), playing(false) {
-    sceClibPrintf("Initing sound...\n");
-    soundInit();
-    SOUND = FSOUND_Init(44100, 32, 0);
+    SOUND = true;
     music = NULL;
-//SOUND=0; // to remove -> hack for no sound mode
-//setVolume(32);
-//setVolson(32);
+#ifdef __vita__
+    f = NULL;
+    mem = NULL;
+#endif
+    
+    if(SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) SOUND = false;
+    
     if (SOUND) {
-        previous_volume = 1;
-        previous_volson = FSOUND_GetSFXMasterVolume();
+#ifdef __vita__
+        Mix_OpenAudio(22050, AUDIO_S16SYS, 1, 1024);
+#else
+        Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048);
+#endif
+        previous_volume = Mix_VolumeMusic(32);
         loadSounds();
+        setVolson(32);
     }
 }
 
 Audio::~Audio() {
     if (SOUND) {
         freeSounds();
-        FMUSIC_StopSong(music);
-        FMUSIC_SetMasterVolume(music, previous_volume);
-        FMUSIC_FreeSong(music);
-        FSOUND_SetSFXMasterVolume(previous_volson);
-        FSOUND_Close();
+        Mix_PauseMusic();
+        Mix_VolumeMusic(previous_volume);
+        Mix_HaltMusic();
+        freeMusic();
+        Mix_CloseAudio();
     }
 }
 
@@ -48,92 +57,126 @@ Audio* Audio::getInstance() {
     return &instance;
 }
 
-void Audio::setVolume(int vol) {volume=vol*4;
-    if (previous_volume == -1) previous_volume = FMUSIC_GetMasterVolume(music);
-    FMUSIC_SetMasterVolume(music, volume);}
-void Audio::setVolson(int volson) {FSOUND_SetSFXMasterVolume(volson*4);}
+void Audio::setVolume(int volume) {
+    if (SOUND) Mix_VolumeMusic(volume);
+}
+
+void Audio::setVolson(int volson) {
+    if (SOUND) for (int i = 0; i < 16; i++) Mix_VolumeChunk(sons[i], volson);
+}
 
 void Audio::loadSounds() {
     sceClibPrintf("Loading sounds...\n");
-    sons = new FSOUND_SAMPLE*[16];
+    sons = new Mix_Chunk*[16];
     
-    sons[0] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/text.ogg",0,0,0); // lettres
-    sons[1] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/menu1.ogg",0,0,0); // menu 1
-    sons[2] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/menu2.ogg",0,0,0); // menu 2
-    sons[3] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/menu3.ogg",0,0,0); // menu 3
-    sons[4] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/surprise.ogg",0,0,0); // surprise
-    sons[5] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/monte.ogg",0,0,0); // monte
-    sons[6] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/descend.ogg",0,0,0); // descend
-    sons[7] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/bomb.ogg",0,0,0); // bombe
-    sons[8] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/textnext.ogg",0,0,0); // suite texte
-    sons[9] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/textend.ogg",0,0,0); // fin texte
-    sons[10] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/happy.ogg",0,0,0); // trouve objet
-    sons[11] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/sword.ogg",0,0,0); // �p�e
-    sons[12] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/Sword360.ogg",0,0,0); // spin
-    sons[13] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/stamp.ogg",0,0,0); // pose bombe
-    sons[14] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/danger.ogg",0,0,0); // danger
-    sons[15] = FSOUND_Sample_Load(FSOUND_FREE, "ux0:data/ZeldaPicross/data/sound/hurt.ogg",0,0,0); // link se blesse
-    
+    sons[0] = getSound("text"); // lettres
+    sons[1] = getSound("menu1"); // menu 1
+    sons[2] = getSound("menu2"); // menu 2
+    sons[3] = getSound("menu3"); // menu 3
+    sons[4] = getSound("surprise"); // surprise
+    sons[5] = getSound("monte"); // monte
+    sons[6] = getSound("descend"); // descend
+    sons[7] = getSound("bomb"); // bombe
+    sons[8] = getSound("textnext"); // suite texte
+    sons[9] = getSound("textend"); // fin texte
+    sons[10] = getSound("happy"); // trouve objet
+    sons[11] = getSound("sword"); // �p�e
+    sons[12] = getSound("Sword360"); // spin
+    sons[13] = getSound("stamp"); // pose bombe
+    sons[14] = getSound("danger"); // danger
+    sons[15] = getSound("hurt"); // link se blesse
+}
+
+Mix_Chunk* Audio::getSound(const char* son) {
+    char fSon[512];
+#ifdef __vita__
+    snprintf(fSon, sizeof(fSon), "%s/%s.ogg", "app0:data/sound", son);
+    sceClibPrintf("Loading %s... \n", fSon);
+#else
+    snprintf(fSon, sizeof(fSon), "%s/%s.ogg", "data/sound", son);
+#endif
+    return Mix_LoadWAV(fSon);
+}
+
+Mix_Music* Audio::getMusic(const char* zik) {
+    char fZik[512];
+#ifdef __vita__
+    struct stat info;
+    snprintf(fZik, sizeof(fZik), "%s/%s.ogg", "app0:data/music", zik);
+    sceClibPrintf("Loading %s... \n", fZik);
+    return Mix_LoadMUS(fZik);
+#else
+    snprintf(fZik, sizeof(fZik), "/%s.mid", "data/music", zik);
+    return Mix_LoadMUS(fZik);
+#endif
 }
 
 void Audio::freeSounds() {
     if (SOUND) {
-        for (int i = 0; i < 16; i++) FSOUND_Sample_Free(sons[i]);
+        for (int i = 0; i < 16; i++) Mix_FreeChunk(sons[i]);
         delete[] sons;
     }
 }
 
+void Audio::freeMusic() {
+    Mix_FreeMusic(music);
+#ifdef __vita__
+    if (mem != NULL) {
+        free(mem);
+        mem = NULL;
+    }
+    if (f != NULL) {
+        fclose(f);
+        f = NULL;
+    }
+#endif
+}
+
 void Audio::playSound(int id, int chl) {
-    if (SOUND) FSOUND_PlaySound(chl, sons[id]);
+    if (SOUND) Mix_PlayChannel(chl,sons[id],0);
 }
 
 void Audio::playMusic(int id) {
     if (SOUND) {
-        if (musiqueId != id || !playing) {
-            musiqueId = id;
-            FMUSIC_StopSong(music);
-            FMUSIC_FreeSong(music);
-            music = choixMusique(id);
-            if (previous_volume == -1) previous_volume = FMUSIC_GetMasterVolume(music);
-            FMUSIC_SetMasterVolume(music, volume);
-            FMUSIC_SetLooping(music, 1);
-            FMUSIC_PlaySong(music);
-            playing = true;
+         if (musiqueId != id) {
+	        musiqueId = id;            
+		    Mix_HaltMusic();
+            freeMusic();
+		    music = choixMusique(id);
+		    Mix_PlayMusic(music,-1);
         }
     }
 }
 
 void Audio::stopMusic() {
-    if (SOUND) FMUSIC_StopSong(music);
-    playing = false;
+    if (SOUND) Mix_HaltMusic();
 }
 
 void Audio::replayMusic() {
-    if (SOUND) FMUSIC_PlaySong(music);
-    playing = true;
+    if (SOUND) Mix_PlayMusic(music,-1);
 }
 
-FMUSIC_MODULE* Audio::choixMusique(int id) {
+Mix_Music* Audio::choixMusique(int id) {
      sceClibPrintf("Loading music...\n");
     switch (id) {
-        case 1 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Plaine.mid");
-        case 2 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Home.mid");
-        case 3 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Lac.mid");
-        case 4 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Cocorico.mid");
-        case 5 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Mont.mid");
-        case 6 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/BoisPerdus.mid");
-        case 7 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Jeu.mid");
-        case 8 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Chateau.mid");
-        case 9 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Boss.mid");
-        case 10 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/DFinal.mid");
-        case 11 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/BossF.mid");
-        case 12 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Zelda.mid");
-        case 190 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Selection.mid");
-        case 195 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Magasin.mid");
-        case 200 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Titre.mid");
-        case 210 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Debut.mid");
-        case 220 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Mort.mid");
-        case 230 : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Fin.mid");
-        default : return FMUSIC_LoadSong("ux0:data/ZeldaPicross/data/music/Plaine.mid");
+        case 1 : return getMusic("Plaine");
+        case 2 : return getMusic("Home");
+        case 3 : return getMusic("Lac");
+        case 4 : return getMusic("Cocorico");
+        case 5 : return getMusic("Mont");
+        case 6 : return getMusic("BoisPerdus");
+        case 7 : return getMusic("Jeu");
+        case 8 : return getMusic("Chateau");
+        case 9 : return getMusic("Boss");
+        case 10 : return getMusic("DFinal");
+        case 11 : return getMusic("BossF");
+        case 12 : return getMusic("Zelda");
+        case 190 : return getMusic("Selection");
+        case 195 : return getMusic("Magasin");
+        case 200 : return getMusic("Titre");
+        case 210 : return getMusic("Debut");
+        case 220 : return getMusic("Mort");
+        case 230 : return getMusic("Fin");
+        default : return getMusic("Plaine");
     }
 }

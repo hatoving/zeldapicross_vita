@@ -12,13 +12,13 @@
 #define __AUDIO_H__
 
 #include <vitasdk.h>
-#include "vita/os_vita.h"
-#include "vita/sound_vita.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 class Audio {
     public :
         static Audio* getInstance();
-        void playSound(int id, int chl = FSOUND_FREE);
+        void playSound(int id, int chl = -1);
         void playMusic(int id);
         void stopMusic();
         void replayMusic();
@@ -28,9 +28,12 @@ class Audio {
         Audio();
         ~Audio();
         static Audio instance;
+        Mix_Chunk* getSound(const char* son);
+        Mix_Music* getMusic(const char* zik);
         void loadSounds();
         void freeSounds();
-        FMUSIC_MODULE* choixMusique(int id);
+        void freeMusic();
+        Mix_Music* choixMusique(int id);
         
         bool SOUND;
         int previous_volume;
@@ -38,8 +41,12 @@ class Audio {
         int volume;
         int musiqueId;
         bool playing;
-        FSOUND_SAMPLE** sons;
-        FMUSIC_MODULE* music;
+        Mix_Chunk** sons;
+        Mix_Music* music;
+#ifdef __vita__
+        char* mem;
+        FILE* f;
+#endif
 
 };
 

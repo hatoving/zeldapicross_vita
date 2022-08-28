@@ -91,7 +91,7 @@ void Window::loop() {
     Game* gpGame = Game::getInstance();
     gpGame->init();
 
-    SDL_VITA_SetVideoModeScaling(0, 0, 640 * 2, 480 * 2);
+    SDL_VITA_SetVideoModeScaling(161, 31, 640 * 2, 480 * 2);
     
     while (gLoop) {
         gpKeyboard->pollEvent();
