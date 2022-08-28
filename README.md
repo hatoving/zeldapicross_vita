@@ -22,11 +22,11 @@ Type in ``make clean`` to clean up all of the files that the Makefile produced.
 |             Button             | Action                         |
 |:------------------------------:|:------------------------------:|
 | ![joysl] / ![dpadh] / ![dpadv] | Move (Map/Cursor)/Reset sqaure |
-|            ![cross]            | Confirm/Mark square as full    |
+|            ![cross]            | Mark square as full            |
 |      ![circl]                  | Mark square as empty           |
 |            ![trian]            | Hypothesis                     |
 |            ![selec]            | Pause                          |
-|            ![start]            | Progress through text          |
+|            ![start]            | Progress through text/Confirm  |
 
 ## Credits
 - [Rinnegatamante](https://github.com/Rinnegatamante/) and [Northfear](https://github.com/Northfear/) for helping me troubleshoot some issues
