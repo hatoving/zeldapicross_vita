@@ -21,8 +21,8 @@ Type in ``make clean`` to clean up all of the files that the Makefile produced.
 |             Button             | Action                       |
 |:------------------------------:|:--------------               |
 | ![joysl] / ![dpadh] / ![dpadv] | Move (Map/Cursor)            |
-|            ![cross]            | Confirm/Mark Square as Full  |
-|      ![circl] / ![squar]       | Mark Square as Empty         |
+|            ![cross]            | Confirm/Mark square as full  |
+|      ![circl] / ![squar]       | Mark square as empty         |
 |            ![trian]            | Hypothesis                   |
 |            ![selec]            | Pause                        |
 |            ![start]            | Progress through text        |
