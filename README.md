@@ -10,7 +10,7 @@ Save files are located at ``ux0:data/ZeldaPicross/save``
 Just go to the Releases tab, install the .VPK with VitaShell and enjoy.
 
 ### For devs
-Make sure you have [VitaSDK](https://vitasdk.org/) installed.
+Make sure you have [VitaSDK](https://vitasdk.org/) and 7Zip (`7z`) installed on your terminal.
 
 Once you have it installed, all you need to do is type in ``make`` and press enter.
 Type in ``make clean`` to clean up all of the files that the Makefile produced.
