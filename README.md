@@ -4,6 +4,11 @@ This is a port of Zelda Picross for the PS Vita, based on the original source fr
 
 Save files are located at ``ux0:data/ZeldaPicross/save``
 
+# Known bugs
+When playing the game, if for whatever reason every text has double letters at the end of 'em, try to go to ``ux0:data/ZeldaPicross`` in VitaShell, open up ``config.cfg`` and change the value of ``fixText`` to ``1``.
+
+The reason as to why it happens may be because of undefined behaviour, though i'm not sure yet.
+
 ## Instructions
 
 ### For end-users
