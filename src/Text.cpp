@@ -10,12 +10,14 @@
 
 #include <string>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 #include "Text.h"
+#include "Game.h"
 #include "Common.h"
 #include "Resources.h"
 #include "Audio.h"
@@ -101,6 +103,27 @@ string Text::getTime(int i) {
 }
 
 void Text::affiche(SDL_Surface* gpScreen, std::string s, int a, int b) {
+    sceClibPrintf("Rendering text...\n");
+    //int length = (fixText) ? (int)s.length() - 1 : (int)s.length();
+    if(fixText)
+    {
+        for (int i = 0; i < (int)s.length() - 1; i++) {
+            displayLetter(gpScreen, s.at(i),a,b);
+            a+=6;
+        }
+    }
+    else 
+    {
+        for (int i = 0; i < (int)s.length(); i++) {
+            displayLetter(gpScreen, s.at(i),a,b);
+            a+=6;
+        }
+    }
+    //toDisplay = true;
+}
+
+void Text::afficheIgnoreFix(SDL_Surface* gpScreen, std::string s, int a, int b) {
+    sceClibPrintf("Rendering text (ignored fix)...\n");
     for (int i = 0; i < (int)s.length(); i++) {
         displayLetter(gpScreen, s.at(i),a,b);
         a+=6;
@@ -109,16 +132,27 @@ void Text::affiche(SDL_Surface* gpScreen, std::string s, int a, int b) {
 }
 
 void Text::draw(SDL_Surface* gpScreen) {
-    
+    sceClibPrintf("Rendering text (draw)...\n");
     if (cadre) {
         Cadre::getInstance()->drawCadre(gpScreen, x, y, w, h, cadre - 1);
     }
     
     int a = x+8; int b = y+8;
-    for (int i = 0; i < av; i++) {
-        displayLetter(gpScreen, text.at(i),a,b);
-        a+=6;
-        if (a >= x+w-16) {a=x+8; b+=16;}
+    if(fixText)
+    {
+        for (int i = 0; i < av - 1; i++) {
+            displayLetter(gpScreen, text.at(i),a,b);
+            a+=6;
+            if (a >= x+w-16) {a=x+8; b+=16;}
+        }
+    }
+    else
+    {
+        for (int i = 0; i < av; i++) {
+            displayLetter(gpScreen, text.at(i),a,b);
+            a+=6;
+            if (a >= x+w-16) {a=x+8; b+=16;}
+        }
     }
     
     if(SDL_GetTicks() > lastAnimTime + vitesse && def && av < (int)text.length()) {

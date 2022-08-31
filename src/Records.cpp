@@ -122,20 +122,20 @@ void Records::start(int r, int q, int f, int qt, int ft) {
     } else {
         text += "-";
     }
-    Text::getInstance()->affiche(image, text, 24, 72 - 16);
+    Text::getInstance()->afficheIgnoreFix(image, text, 24, 72 - 16);
     
     
     oss.str("");
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 10);
     oss << q;
     text += oss.str();
-    Text::getInstance()->affiche(image, text, 24, 72 + 16);
+    Text::getInstance()->afficheIgnoreFix(image, text, 24, 72 + 16);
     
     oss.str("");
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 11);
     oss << f;
     text += oss.str();
-    Text::getInstance()->affiche(image, text, 24, 72 + 16 * 2);
+    Text::getInstance()->afficheIgnoreFix(image, text, 24, 72 + 16 * 2);
     
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 12);
     if (q == 200 && qt < 360000) {
@@ -143,7 +143,7 @@ void Records::start(int r, int q, int f, int qt, int ft) {
     } else {
         text += "-";
     }
-    Text::getInstance()->affiche(image, text, 24, 72 + 16 * 4);
+    Text::getInstance()->afficheIgnoreFix(image, text, 24, 72 + 16 * 4);
     
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 13);
     if (f == 200 && ft < 360000) {
@@ -151,13 +151,13 @@ void Records::start(int r, int q, int f, int qt, int ft) {
     } else {
         text += "-";
     }
-    Text::getInstance()->affiche(image, text, 24, 72 + 16 * 5);
+    Text::getInstance()->afficheIgnoreFix(image, text, 24, 72 + 16 * 5);
     
     
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 14);
-    Text::getInstance()->affiche(image, text, 63, 200);
+    Text::getInstance()->afficheIgnoreFix(image, text, 63, 200);
     text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 15);
-    Text::getInstance()->affiche(image, text, 215, 200);
+    Text::getInstance()->afficheIgnoreFix(image, text, 215, 200);
 }
 
 void Records::cadre(int x, int y, int w, int h, SDL_Surface* im) {

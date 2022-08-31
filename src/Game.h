@@ -12,11 +12,14 @@
 #define __GAME_H__
 
 #include <SDL/SDL.h>
+#include <vitasdk.h>
 
 #include "Event.h"
 #include "Common.h"
 #include "Quest.h"
 #include "Joueur.h"
+
+inline bool fixText;
 
 class Game {
     public :
@@ -38,6 +41,9 @@ class Game {
         void setSave(int s);
         void setMode(Mode m);
         void razRecords();
+
+        //vita
+        void loadVitaSpecficConfig();
     private :
         static Game instance;
         

@@ -65,7 +65,7 @@ SDL_Surface* init(bool* zoom) {
     } else {
         return SDL_SetVideoMode(320, 240, 32, SDL_HWSURFACE|SDL_DOUBLEBUF);
     }*/
-    return SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE|SDL_DOUBLEBUF);
+    return SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE|SDL_DOUBLEBUF);
 }
 
 void Window::loop() {

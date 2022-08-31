@@ -23,6 +23,7 @@ class Text {
         void draw(SDL_Surface* gpScreen);
         void setText(int idTxt, int vx=8, int vy=152, int vw=304, int vh=80, int cadr=1, bool defil=true, int vit=30);
         void affiche(SDL_Surface* gpScreen, string s, int a, int b);
+        void afficheIgnoreFix(SDL_Surface* gpScreen, string s, int a, int b);
         void changeId(int i);
         int getId();
         void init();
@@ -46,7 +47,7 @@ class Text {
         void displayLetter(SDL_Surface* gpScreen, char c, int vx, int vy);
         
         int vitesse; // millisecondes entre 2 lettres
-        int av; //avancement du défilement
+        int av; //avancement du dï¿½filement
         int x;
         int y;
         int w;
@@ -54,7 +55,7 @@ class Text {
         int id;
         int idsuiv;
         int number;
-        bool def; //si le texte doit défiler
+        bool def; //si le texte doit dï¿½filer
         int cadre; //cadre : 0 = non, 1 = vert, 2 = bleu, 3 = rouge
         string text;
         string buffer;

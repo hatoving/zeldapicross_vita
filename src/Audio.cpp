@@ -153,7 +153,11 @@ void Audio::stopMusic() {
 }
 
 void Audio::replayMusic() {
-    if (SOUND) Mix_PlayMusic(music,-1);
+    if (SOUND)
+    {
+        Mix_PlayMusic(music,10000);
+        Mix_HaltMusic();
+    }
 }
 
 Mix_Music* Audio::choixMusique(int id) {

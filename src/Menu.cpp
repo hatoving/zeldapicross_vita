@@ -184,9 +184,9 @@ void Menu::start() {
     cadre(16,96,288,32, image);
     cadre(16,144,288,32, image);
     
-    Text::getInstance()->affiche(image, "1.", 44, 56);
-    Text::getInstance()->affiche(image, "2.", 44, 104);
-    Text::getInstance()->affiche(image, "3.", 44, 152);
+    Text::getInstance()->afficheIgnoreFix(image, "1.", 44, 56);
+    Text::getInstance()->afficheIgnoreFix(image, "2.", 44, 104);
+    Text::getInstance()->afficheIgnoreFix(image, "3.", 44, 152);
     
     for (int i = 0; i < 3; i++) {
         Joueur* gpJoueur = joueurs[i];
@@ -196,7 +196,7 @@ void Menu::start() {
             gpJoueur->drawObjects(image, 48+8+16*6, 57 + i*48);
             text = Text::getInstance()->getText(TEXTS_BEFORE_MENU + 2);
             text += gpJoueur->getRank();
-            Text::getInstance()->affiche(image, text, 48+16*12, 57 + i*48);
+            Text::getInstance()->afficheIgnoreFix(image, text, 48+16*12, 57 + i*48);
         }
     }
         

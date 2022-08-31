@@ -30,12 +30,46 @@ Game Game::instance=Game();
 
 Game::Game() : save(0), mode(LOGO), volume(32), volson(32), rRank(-1), 
 rQuest(0), rFree(0), rQuestTime(360000), rFreeTime(360000), rToSave(false) {
+    loadVitaSpecficConfig();
 }
 
 Game::~Game() {
     //delete gpQuest;
     for (int i = 0; i < 3; i++) {
         delete joueurs[i];
+    }
+}
+
+void Game::loadVitaSpecficConfig()
+{
+    char configFile[512];
+    char buf[30];
+    int val;
+
+    sprintf(configFile, "ux0:data/ZeldaPicross/config.cfg");
+    FILE* config;
+
+    if(fopen("ux0:data/ZeldaPicross/config.cfg", "r") != NULL)
+    {
+        sceClibPrintf("Loading vita config file...\n");
+        config = fopen("ux0:data/ZeldaPicross/config.cfg", "r");
+    }
+    else {
+        sceClibPrintf("Creating vita config file...\n");
+        config = fopen("ux0:data/ZeldaPicross/config.cfg", "w+");
+        fprintf(config, "%s=%d", "fixText", (int)fixText);
+    }
+
+    if(config)
+    {
+        sceClibPrintf("Loading config values...\n");
+        while(EOF != fscanf(config, "%[^=]=%d\n", buf, &val))
+        {
+            sceClibPrintf("fixText...\n");
+            if(strcmp("fixText", buf) == 0) fixText = (bool)val;
+        }
+        sceClibPrintf("Done! Closing file...\n");
+        fclose(config);
     }
 }
 
@@ -56,8 +90,6 @@ void Game::init() {
     Ending::getInstance()->init();
     Free::getInstance()->init();
     Quest::getInstance()->init();
-    
-    
 }
 
 Game* Game::getInstance() {

@@ -451,7 +451,7 @@ void Quest::draw(SDL_Surface* gpScreen) {
             }
             width = 16 + text.length() * 6 + (16 - (text.length() * 6)%16)%16;
             Cadre::getInstance()->drawCadre(gpScreen, 0, 0, width, 32);
-            gpText->affiche(gpScreen, text, 8, 8);
+            !gpMap->getPicrossToDo() ? gpText->afficheIgnoreFix(gpScreen, text, 8, 8) : gpText->affiche(gpScreen, text, 8, 8);
             
             // optional object to win
             /*if (!gpMap->getPicrossToDo() 
@@ -460,7 +460,7 @@ void Quest::draw(SDL_Surface* gpScreen) {
             if (displayTimeToBeat) {
                 Cadre::getInstance()->drawCadre(gpScreen, 0, 34, 80, 32, 1);
                 gpJoueur->drawObject(gpScreen, 8, 46, gpMap->getObjectToWin());
-                gpText->affiche(gpScreen, 
+                gpText->afficheIgnoreFix(gpScreen, 
                     gpText->getTime(gpMap->getTimeToBeat()), 20, 42);
             }
             
@@ -472,14 +472,14 @@ void Quest::draw(SDL_Surface* gpScreen) {
             if (i > 0) {
                 os << i;
                 text = gpText->getText(TEXTS_BEFORE_COMMON + 2) + os.str();
-                gpText->affiche(gpScreen, text, 8, 200);
+                gpText->afficheIgnoreFix(gpScreen, text, 8, 200);
                 int maxTime = gpMap->getTime(x, y);
                 if (gpJoueur->hasObject(BOOTS)) {
                     maxTime *= 2;
                 }
                 text = gpText->getText(TEXTS_BEFORE_COMMON + 3) 
                     + gpText->getTime(maxTime);
-                gpText->affiche(gpScreen, text, 8, 216);
+                gpText->afficheIgnoreFix(gpScreen, text, 8, 216);
                 
                 time = 0;
                 for (int k = 0; k < gpMap->getNbPicross(x, y); k++) {
@@ -488,13 +488,13 @@ void Quest::draw(SDL_Surface* gpScreen) {
                 if (time > 0) {
                     text = gpText->getText(TEXTS_BEFORE_COMMON + 7)
                         + gpText->getTime(time);
-                    gpText->affiche(gpScreen, text, 160, 216);
+                    gpText->afficheIgnoreFix(gpScreen, text, 160, 216);
                 }
             }
             
             // total time
             Cadre::getInstance()->drawCadre(gpScreen, 0, 142, 64, 32, 1);
-            gpText->affiche(gpScreen, gpText->getTime(gpJoueur->getTotalQuestTime()),6,150);
+            gpText->afficheIgnoreFix(gpScreen, gpText->getTime(gpJoueur->getTotalQuestTime()),6,150);
             
             break;
         case RESOLVE_PICROSS :
@@ -536,7 +536,7 @@ void Quest::draw(SDL_Surface* gpScreen) {
                 }
             }
             
-            gpText->affiche(gpScreen, gpText->getTime(time), 16, 32);
+            gpText->afficheIgnoreFix(gpScreen, gpText->getTime(time), 16, 32);
             break;
         default : break;
     }
